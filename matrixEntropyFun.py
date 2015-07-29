@@ -1,10 +1,10 @@
+# log fun
+import math;
+
 # Input:
 # [2D dict of float values] the matrix whose entropy to be calculated
 # Output:
 # [float] the calculated entropy
-
-# log fun
-import math;
 
 def matrixEntropyFun(matrix):
     

@@ -1,10 +1,10 @@
+import collections;
+from matrixEntropyFun import matrixEntropyFun;
+
 # Input:
 # [2D dict of float values] the distribution matrix to be inferred
 # Output:
 # [string] the node with the smallest entropy
-
-import collections;
-from matrixEntropyFun import matrixEntropyFun;
 
 def minEntropyNodeInfer(distriMatrix):
     

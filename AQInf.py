@@ -1,30 +1,30 @@
+# absolute function
+import math;
+from matrixInit import distriMatrixInit;
+from matrixEntropyFun import matrixEntropyFun;
+from harmonicFun import harmonicFun;
+
+# constants
+
 # Input: 
 # (a) [string list] a set of locations V with existing measurement stations;
 # (b) [string list] a set of query locations U without stations;
 # (c) [string list] the time interval ti of interest;
 # (d) [2D dict] the labeled node distribution over AQI value (Pv); 
 # Output:
-# [2D dict] the AQI value q(u), where u ∈ U and ti ∈ T;
-
-# constants
-
-# absolute function
-import math;
-from matrixInit import matrixInit;
-from matrixEntropyFun import matrixEntropyFun;
-from harmonicFun import harmonicFun;
+# [2D dict] the unlabeled AQI distribution Pu;
 
 def AQInf(labeledList, unlabeledList, timeStampList):
     
     # initialize Pu
     entityProb = 1.0 / (MAX_AQI+1);
-    unlabeledDistriMatrix = matrixInit(unlabeledList, entityProb, True);
+    unlabeledDistriMatrix = distriMatrixInit(unlabeledList, entityProb);
     
     # construct the node list
     nodeList = labeledList + unlabeledList;
     
     # construct AG based on the node list
-    # contruct the whole stuff
+    # construct the whole stuff
 
     # update weight matrix
 
@@ -42,7 +42,7 @@ def AQInf(labeledList, unlabeledList, timeStampList):
         # update weight matrix
 
         # update Pu through harmonic function
-        unlabeledDistriMatrix = harmonicFun(weightMatrix, labeledDistriMatrix);
+        unlabeledDistriMatrix = harmonicFun(weightMatrix, labeledDistriMatrix, unlabeledDistriMatrix.keys());
         
         # compute entropy of unlabeled distribution matrix
         unlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);
