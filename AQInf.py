@@ -10,21 +10,23 @@ from harmonicFun import harmonicFun;
 # (a) [string list] a set of locations V with existing measurement stations;
 # (b) [string list] a set of query locations U without stations;
 # (c) [string list] the time interval ti of interest;
-# (d) [2D dict] the labeled node distribution over AQI value (Pv); 
+# (d) [1D dict] the labeled nodes with their AQI values;
 # Output:
 # [2D dict] the unlabeled AQI distribution Pu;
 
-def AQInf(labeledList, unlabeledList, timeStampList):
+def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
     
     # initialize Pu
-    entityProb = 1.0 / (MAX_AQI+1);
-    unlabeledDistriMatrix = distriMatrixInit(unlabeledList, entityProb);
+    unlabeledDistriMatrix = distriMatrixInit(unlabeledList, MAX_AQI + 1);
     
     # construct the node list
     nodeList = labeledList + unlabeledList;
     
     # construct AG based on the node list
     # construct the whole stuff
+
+    # construct labeledDistriMatrix from labeledAQIList
+    
 
     # update weight matrix
 

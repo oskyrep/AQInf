@@ -7,10 +7,12 @@ from twoDimDictListTransformation import twoDimListToTwoDimDict;
 # Output:
 # [2D dict] the matrix whose entities share maxAQI values
 
-def distriMatrixInit(rowIndexList, entity):
+def distriMatrixInit(rowIndexList, numOfClasses):
     
     numOfRows = len(rowIndexList);
-    tempTwoDimList = [ [entity] * (MAX_AQI+1) ] * numOfRows;
+    entity = 1.0 / numOfClasses;
+
+    tempTwoDimList = [ [entity] * numOfClasses ] * numOfRows;
 
     return twoDimListToTwoDimDict(tempTwoDimList, rowIndexList);
 
@@ -23,11 +25,15 @@ def distriMatrixInit(rowIndexList, entity):
 
 def stringIndexMatrixInit(rowIndexList, colIndexList, entity):
         
-    matrix = collections.OrderedDict();
+    rowValue = collections.OrderedDict.fromkeys(colIndexList, entity);
 
-    for rowIndex in rowIndexList:
-        matrix[rowIndex] = collections.OrderedDict();
-        for colIndex in colIndexList:
-            matrix[rowIndex][colIndex] = entity;
+    return collections.OrderedDict.fromkeys(rowIndexList, rowValue);
 
-    return matrix;
+def labeledDistriMatrixInit(labeledAQIList, numOfClasses):
+
+    distriMatrix = collections.OrderedDict.fromkeys(labeledAQIList.keys(), [0.0] * numOfClasses);
+
+    for labeledNode in distriMatrix:
+        distriMatrix[labeledNode][labeledAQIList[labeledNode]] = 1.0;
+
+    return distriMatrix;
