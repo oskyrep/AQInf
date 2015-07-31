@@ -1,5 +1,5 @@
 import pandas as pd;
-import collections;
+from collections import OrderedDict;
 from matrixEntropyFun import f;
 from matrixEntropyFun import matrixEntropyFun;
 
@@ -10,7 +10,7 @@ from matrixEntropyFun import matrixEntropyFun;
 
 def minEntropyNodeInfer(distriMatrix):
     
-    nodeEntropyList = collections.OrderedDict();
+    nodeEntropyList = OrderedDict();
 
     for node in distriMatrix.keys():
         # the matrixEntropyFun's input has to be 2D dict

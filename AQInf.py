@@ -1,6 +1,6 @@
 # absolute function
 import math;
-from matrixInit import distriMatrixInit;
+from matrixInit import unlabeledDistriMatrixInit;
 from matrixEntropyFun import matrixEntropyFun;
 from harmonicFun import harmonicFun;
 
@@ -17,7 +17,7 @@ from harmonicFun import harmonicFun;
 def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
     
     # initialize Pu
-    unlabeledDistriMatrix = distriMatrixInit(unlabeledList, MAX_AQI + 1);
+    unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1);
     
     # construct the node list
     nodeList = labeledList + unlabeledList;
@@ -26,6 +26,7 @@ def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
     # construct the whole stuff
 
     # construct labeledDistriMatrix from labeledAQIList
+    labeledDistriMatrix = labeledDistriMatrixInit(labeledAQIList, MAX_AQI + 1);
     
 
     # update weight matrix
@@ -44,7 +45,9 @@ def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
         # update weight matrix
 
         # update Pu through harmonic function
-        unlabeledDistriMatrix = harmonicFun(weightMatrix, labeledDistriMatrix, unlabeledDistriMatrix.keys());
+        unlabeledDistriMatrix = harmonicFun(weightMatrix,
+                                            labeledDistriMatrix,
+                                            list(unlabeledDistriMatrix.columns));
         
         # compute entropy of unlabeled distribution matrix
         unlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);

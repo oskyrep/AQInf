@@ -26,4 +26,4 @@ def matrixEntropyFun(dataFrame):
     # apply the matrix opeartion function to f
     entityEntropyFun = np.vectorize(f);
 
-    return - ( np.ndarray.sum( entityEntropyFun(matrix) ) ) / numOfNodes;
+    return - ( np.sum( entityEntropyFun(matrix) ) ) / numOfNodes;

@@ -50,16 +50,6 @@ def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
             # exclude the labeled node from the unlabeled list
             unlabeledList.remove(minEntropyUnlabeled);
 
-    # for each node: sum the rank value
-    rankList = rankTable.sum();
-    for keyrankList.sort(ascending = False)
-    rankList = collections.OrderedDict();
-
-    for unlabeled in unlabeledList:
-        rankList[unlabeled] = sum(rankTable[unlabeled].values());
-            
+    # construct the recommend list
     # sort the rankList in descending order
-    # and add to the recommend list
-    # sorted::key: key which is comparison based on 
-    # reverse = True flag: descending order
-    return list(pd.DataFrame(A.sum()).sort(columns = 0, ascending = False).index);
+    return list(pd.DataFrame(rankTable.sum()).sort(columns = 0, ascending = False).index);

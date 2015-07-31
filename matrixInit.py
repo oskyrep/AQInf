@@ -1,5 +1,5 @@
+import pandas as pd;
 import collections;
-from twoDimDictListTransformation import twoDimListToTwoDimDict;
 
 # Input: 
 # (a) [string list] the unlabeled node list
@@ -7,14 +7,24 @@ from twoDimDictListTransformation import twoDimListToTwoDimDict;
 # Output:
 # [2D dict] the matrix whose entities share maxAQI values
 
-def distriMatrixInit(rowIndexList, numOfClasses):
+def unlabeledDistriMatrixInit(unlabeledList, numOfClasses):
     
-    numOfRows = len(rowIndexList);
-    entity = 1.0 / numOfClasses;
+    return pd.DataFrame([ [1.0 / numOfClasses] * len(unlabeledList) ] * numOfClasses,
+                        index = range(0, numOfClasses),
+                        columns = unlabeledList,
+                        dtype = float);
 
-    tempTwoDimList = [ [entity] * numOfClasses ] * numOfRows;
+def labeledDistriMatrixInit(labeledAQIList, numOfClasses):
 
-    return twoDimListToTwoDimDict(tempTwoDimList, rowIndexList);
+    distriMatrix = pd.DataFrame([ [0] * len(labeledAQIList.keys()) ] * numOfClasses,
+                                index = range(0, numOfClasses),
+                                columns = labeledAQIList.keys(),
+                                dtype = float);
+
+    for (labeledNode, AQI) in labeledAQIList.items():
+        distriMatrix[labeledNode][AQI] = 1.0;
+
+    return distriMatrix;
 
 # Input: 
 # (a) [string list] the row index node list
@@ -29,11 +39,4 @@ def stringIndexMatrixInit(rowIndexList, colIndexList, entity):
 
     return collections.OrderedDict.fromkeys(rowIndexList, rowValue);
 
-def labeledDistriMatrixInit(labeledAQIList, numOfClasses):
 
-    distriMatrix = collections.OrderedDict.fromkeys(labeledAQIList.keys(), [0.0] * numOfClasses);
-
-    for labeledNode in distriMatrix:
-        distriMatrix[labeledNode][labeledAQIList[labeledNode]] = 1.0;
-
-    return distriMatrix;
