@@ -1,21 +1,29 @@
 # log fun
 import math;
+import pandas as pd;
+import numpy as np;
 
 # Input:
 # [2D dict of float values] the matrix whose entropy to be calculated
 # Output:
 # [float] the calculated entropy
 
-def matrixEntropyFun(matrix):
+def f(entity):
     
+    if entity == 0.0 or entity == 1.0:
+        return 0;
+    else:
+        return entity * math.log(entity, 2) + (1-entity) * math.log(1-entity, 2);
+
+def matrixEntropyFun(dataFrame):
+    
+    # transform the pandas dataFrame into numpy array
+    matrix = dataFrame.T.values;
+
     # the # of nodes = the first dim of matrix
-    numOfNodes = len(matrix);
-    entropy = 0.0;
+    numOfNodes = matrix.shape[0];
+    
+    # apply the matrix opeartion function to f
+    entityEntropyFun = np.vectorize(f);
 
-    for AQILabel in matrix.itervalues():
-        for entity in AQILabel.itervalues():
-            # if p = 0 or 1: entropy = 0
-            if entity > 0.0 and entity < 1.0:
-                entropy += entity * math.log(entity, 2) + (1-entity) * math.log(1-entity, 2);
-
-    return (- entropy) / numOfNodes;
+    return - ( np.ndarray.sum( entityEntropyFun(matrix) ) ) / numOfNodes;

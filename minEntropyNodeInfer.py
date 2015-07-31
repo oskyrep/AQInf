@@ -1,4 +1,6 @@
+import pandas as pd;
 import collections;
+from matrixEntropyFun import f;
 from matrixEntropyFun import matrixEntropyFun;
 
 # Input:
@@ -10,10 +12,10 @@ def minEntropyNodeInfer(distriMatrix):
     
     nodeEntropyList = collections.OrderedDict();
 
-    for node in distriMatrix.iterkeys():
+    for node in distriMatrix.keys():
         # the matrixEntropyFun's input has to be 2D dict
         # transform a row in distriMatrix into 2D dict
-        nodeEntropyList[node] = matrixEntropyFun( {node : distriMatrix[node]} );
+        nodeEntropyList[node] = matrixEntropyFun( distriMatrix.ix[ : , node : node] );
             
     # return the node with the smallest entropy
     return min(nodeEntropyList, key = nodeEntropyList.get);

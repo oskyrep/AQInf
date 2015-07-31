@@ -1,5 +1,4 @@
-# 2D Ordered Dict
-import collections;
+import pandas as pd;
 from AQInf import AQInf;
 from minEntropyNodeInfer import minEntropyNodeInfer;
 from matrixInit import stringIndexMatrixInit;
@@ -25,7 +24,9 @@ def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
     
     # initialize the rankTable
     # unlabeled nodes -> time stamps
-    rankTable = stringIndexMatrixInit(unlabeledList, timeStampList, -1);
+    rankTable = pd.DataFrame([ [-1] * len(unlabeledList) ] * len(timeStampList),
+                             index = timeStampList,
+                             columns = unlabeledList);
 
     # for each time stamps: do GEM
     for currentTimeStamp in timeStampList:
@@ -50,6 +51,8 @@ def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
             unlabeledList.remove(minEntropyUnlabeled);
 
     # for each node: sum the rank value
+    rankList = rankTable.sum();
+    for keyrankList.sort(ascending = False)
     rankList = collections.OrderedDict();
 
     for unlabeled in unlabeledList:
@@ -59,9 +62,4 @@ def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
     # and add to the recommend list
     # sorted::key: key which is comparison based on 
     # reverse = True flag: descending order
-    recommendList = [];
-
-    for (key, value) in sorted(rankList.iteritems(), key = lambda (k,v): (v,k), reverse = True):
-        recommendList.append(key);
-
-    return recommendList;
+    return list(pd.DataFrame(A.sum()).sort(columns = 0, ascending = False).index);
