@@ -14,14 +14,14 @@ def unlabeledDistriMatrixInit(unlabeledList, numOfClasses):
                         columns = unlabeledList,
                         dtype = float);
 
-def labeledDistriMatrixInit(labeledAQIList, numOfClasses):
+def labeledDistriMatrixInit(labeledAQIDict, numOfClasses):
 
-    distriMatrix = pd.DataFrame([ [0] * len(labeledAQIList.keys()) ] * numOfClasses,
+    distriMatrix = pd.DataFrame([ [0] * len(labeledAQIDict.keys()) ] * numOfClasses,
                                 index = range(0, numOfClasses),
-                                columns = labeledAQIList.keys(),
+                                columns = labeledAQIDict.keys(),
                                 dtype = float);
 
-    for (labeledNode, AQI) in labeledAQIList.items():
+    for (labeledNode, AQI) in labeledAQIDict.items():
         distriMatrix[labeledNode][AQI] = 1.0;
 
     return distriMatrix;
@@ -35,8 +35,7 @@ def labeledDistriMatrixInit(labeledAQIList, numOfClasses):
 
 def stringIndexMatrixInit(rowIndexList, colIndexList, entity):
         
-    rowValue = collections.OrderedDict.fromkeys(colIndexList, entity);
-
-    return collections.OrderedDict.fromkeys(rowIndexList, rowValue);
-
-
+    return pd.DataFrame([ [entity] * len(colIndexList) ] * len(rowIndexList),
+                        index = rowIndexList,
+                        columns = colIndexList,
+                        dtype = float);

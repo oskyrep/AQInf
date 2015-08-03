@@ -1,6 +1,10 @@
 # absolute function
 import math;
 from matrixInit import unlabeledDistriMatrixInit;
+from matrixInit import labeledDistriMatrixInit;
+from matrixInit import stringIndexMatrixInit;
+from matrixUpdate import featureWeightMatrixListUpdate;
+from matrixUpdate import weightMatrixUpdate;
 from matrixEntropyFun import matrixEntropyFun;
 from harmonicFun import harmonicFun;
 
@@ -14,22 +18,28 @@ from harmonicFun import harmonicFun;
 # Output:
 # [2D dict] the unlabeled AQI distribution Pu;
 
-def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
+def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIDict):
     
     # initialize Pu
     unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1);
     
+    # construct labeledDistriMatrix from labeledAQIDict
+    labeledDistriMatrix = labeledDistriMatrixInit(labeledAQIDict, MAX_AQI + 1);
+
     # construct the node list
     nodeList = labeledList + unlabeledList;
     
     # construct AG based on the node list
     # construct the whole stuff
 
-    # construct labeledDistriMatrix from labeledAQIList
-    labeledDistriMatrix = labeledDistriMatrixInit(labeledAQIList, MAX_AQI + 1);
-    
+    # initsialize feature weight matrix
+    featureWeightMatrixList = [];
+
+    for i in range(numOfFeatures):
+        featureWeightMatrixList.append(stringIndexMatrixInit(nodeList, nodeList, 1.0));
 
     # update weight matrix
+    weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList);
 
     # calculate old entropy H(Pu)
     lastUnlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);
@@ -41,8 +51,10 @@ def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIList):
     while unlabeledDistriEntropyDiff > CONV_THRESHOLD:
     
         # update Pik matrix
+        featureWeightMatrixListUpdate(featureWeightMatrixList, weightMatrix, AffinityFunMatrixList);
 
         # update weight matrix
+        weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList);
 
         # update Pu through harmonic function
         unlabeledDistriMatrix = harmonicFun(weightMatrix,

@@ -14,7 +14,7 @@ from matrixInit import stringIndexMatrixInit;
 ###########################
 # haven't implemented:
 # [optional] algo.2.12: sum finished, average
-# AQInf para: the Pv matrix, should be updated every AQInf call
+# labeledAQIDict: AQInf's para, the Pv matrix, feed input into it. 
 ###########################
 
 def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
@@ -36,16 +36,19 @@ def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
         # for each unlabeled nodes: do GEM
         for currentRank in range(unlabeledListLen, 0, -1):
 
-            unlabeledDistriMatrix = AQInf(labeledList, leftUnlabeledList, currentTimeStamp);
+            unlabeledDistriMatrix = AQInf(labeledList, leftUnlabeledList, currentTimeStamp, labeledAQIDict);
 
             # select the unlabedled node with the min entropy
-            minEntropyUnlabeled = minEntropyNodeInfer(unlabeledDistriMatrix);
+            (minEntropyUnlabeled, minEntropyUnlabeledAQI) = minEntropyNodeInfer(unlabeledDistriMatrix);
 
             # give the rank value reversely
             rankTable[minEntropyUnlabeled][currentTimeStamp] = currentRank;
 
             # turn unlabeled to labeled
             labeledList.append(minEntropyUnlabeled);
+
+            # append the new inferred AQI
+            labeledAQIDict[minEntropyUnlabeled] = minEntropyUnlabeledAQI;
 
             # exclude the labeled node from the unlabeled list
             unlabeledList.remove(minEntropyUnlabeled);

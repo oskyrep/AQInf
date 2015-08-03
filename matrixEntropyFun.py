@@ -8,7 +8,7 @@ import numpy as np;
 # Output:
 # [float] the calculated entropy
 
-def f(entity):
+def entropyFun(entity):
     
     if entity == 0.0 or entity == 1.0:
         return 0;
@@ -23,7 +23,7 @@ def matrixEntropyFun(dataFrame):
     # the # of nodes = the first dim of matrix
     numOfNodes = matrix.shape[0];
     
-    # apply the matrix opeartion function to f
-    entityEntropyFun = np.vectorize(f);
+    # apply the matrix opeartion function to entropyFun
+    entityEntropyFun = np.vectorize(entropyFun);
 
     return - ( np.sum( entityEntropyFun(matrix) ) ) / numOfNodes;
