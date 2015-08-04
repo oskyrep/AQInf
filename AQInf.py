@@ -7,6 +7,9 @@ from matrixUpdate import featureWeightMatrixListUpdate;
 from matrixUpdate import weightMatrixUpdate;
 from matrixEntropyFun import matrixEntropyFun;
 from harmonicFun import harmonicFun;
+from AffinityFunMatrixListInit import AffinityFunSubMatrixInit;
+from AffinityFunMatrixListInit import linearizeFun;
+from AffinityFunMatrixListInit import AffinityFunMatrixListInit;
 
 # constants
 
@@ -18,19 +21,28 @@ from harmonicFun import harmonicFun;
 # Output:
 # [2D dict] the unlabeled AQI distribution Pu;
 
+# haven't implemented:
+# (a) labeledFeatureDictList
+# (b) unlabeledFeatureDictList
+# (c) numOfFeatures
+
 def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIDict):
     
     # initialize Pu
     unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1);
     
-    # construct labeledDistriMatrix from labeledAQIDict
+    # construct labeledDistriMatrix Pv from labeledAQIDict
     labeledDistriMatrix = labeledDistriMatrixInit(labeledAQIDict, MAX_AQI + 1);
 
     # construct the node list
     nodeList = labeledList + unlabeledList;
     
-    # construct AG based on the node list
-    # construct the whole stuff
+    # construct AffinityFunMatrix list from featureDict list
+    AffinityFunMatrixList = AffinityFunMatrixListInit(nodeList,
+                                                      labeledFeatureDictList,
+                                                      unlabeledFeatureDictList,
+                                                      numOfFeatures,
+                                                      labeledAQIDict);
 
     # initsialize feature weight matrix
     featureWeightMatrixList = [];

@@ -11,11 +11,9 @@ from matrixInit import stringIndexMatrixInit;
 # Output:
 # [string list] the set S of k recommended locations (|S| = k);
 
-###########################
 # haven't implemented:
 # [optional] algo.2.12: sum finished, average
 # labeledAQIDict: AQInf's para, the Pv matrix, feed input into it. 
-###########################
 
 def GEM(labeledList, unlabeledList, timeStampList, numToBeRecommend):
     

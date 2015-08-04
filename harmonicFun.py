@@ -30,6 +30,6 @@ def harmonicFun(weightMatrixRHS, labeledDistriMatrixRHS, unlabeledList):
                                    labeledDistriMatrix;
 
     return pd.DataFrame(unlabeledDistriMatrix.transpose(),
-                        index = range(0, unlabeledDistriMatrix.shape[1]),
+                        index = range(unlabeledDistriMatrix.shape[1]),
                         columns = unlabeledList,
                         dtype = float);

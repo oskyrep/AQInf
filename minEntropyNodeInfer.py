@@ -20,4 +20,4 @@ def minEntropyNodeInfer(distriMatrix):
     # return the node with the smallest entropy
     minEntropyNode = min(nodeEntropyDict, key = nodeEntropyDict.get);
 
-    return (minEntropyNode, distriMatrix[minEntropyNode].max(axis = 1));
+    return (minEntropyNode, distriMatrix[minEntropyNode].argmax());

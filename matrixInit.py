@@ -10,14 +10,14 @@ import collections;
 def unlabeledDistriMatrixInit(unlabeledList, numOfClasses):
     
     return pd.DataFrame([ [1.0 / numOfClasses] * len(unlabeledList) ] * numOfClasses,
-                        index = range(0, numOfClasses),
+                        index = range(numOfClasses),
                         columns = unlabeledList,
                         dtype = float);
 
 def labeledDistriMatrixInit(labeledAQIDict, numOfClasses):
 
     distriMatrix = pd.DataFrame([ [0] * len(labeledAQIDict.keys()) ] * numOfClasses,
-                                index = range(0, numOfClasses),
+                                index = range(numOfClasses),
                                 columns = labeledAQIDict.keys(),
                                 dtype = float);
 
