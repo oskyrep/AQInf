@@ -1,11 +1,12 @@
+# libs
 import pandas as pd;
 import collections;
 
 # Input: 
 # (a) [string list] the unlabeled node list
-# (b) [float] the entity default value to be filled in
+# (b) [float] the # of AQI classes
 # Output:
-# [2D dict] the matrix whose entities share maxAQI values
+# [pandas DataFrame] the unlabeled distribution matrix Pu after initialization
 
 def unlabeledDistriMatrixInit(unlabeledList, numOfClasses):
     
@@ -13,6 +14,12 @@ def unlabeledDistriMatrixInit(unlabeledList, numOfClasses):
                         index = range(numOfClasses),
                         columns = unlabeledList,
                         dtype = float);
+
+# Input: 
+# (a) [dict] labeled : AQI
+# (b) [float] the # of AQI classes
+# Output:
+# [pandas DataFrame] the labeled distribution matrix Pv after initialization
 
 def labeledDistriMatrixInit(labeledAQIDict, numOfClasses):
 
@@ -31,7 +38,7 @@ def labeledDistriMatrixInit(labeledAQIDict, numOfClasses):
 # (b) [string list] the col index node list
 # (c) [float] the entity default value to be filled in
 # Output:
-# [2D dict] the matrix whose entities are (c)
+# [pandas DataFrame] the matrix whose entities are (c)
 
 def stringIndexMatrixInit(rowIndexList, colIndexList, entity):
         

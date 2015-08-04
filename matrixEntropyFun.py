@@ -1,12 +1,13 @@
-# log fun
-import math;
+# libs
 import pandas as pd;
 import numpy as np;
+    # log fun
+import math;
 
 # Input:
-# [2D dict of float values] the matrix whose entropy to be calculated
+# [float] numpy matrix's entity
 # Output:
-# [float] the calculated entropy
+# [float] new numpy matrix's entity after operation
 
 def entropyFun(entity):
     
@@ -14,6 +15,11 @@ def entropyFun(entity):
         return 0.0;
     else:
         return entity * math.log(entity, 2) + (1-entity) * math.log(1-entity, 2);
+
+# Input:
+# [pandas DataFrame] the matrix whose entropy to be calculated
+# Output:
+# [float] the matrix entropy after calculation
 
 def matrixEntropyFun(dataFrame):
     

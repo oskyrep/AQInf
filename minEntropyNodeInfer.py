@@ -1,12 +1,16 @@
+# libs
 import pandas as pd;
 from collections import OrderedDict;
+
+# functions
 from matrixEntropyFun import entropyFun;
 from matrixEntropyFun import matrixEntropyFun;
 
 # Input:
-# [2D dict of float values] the distribution matrix to be inferred
+# [pandas DataFrame] the distribution matrix to be inferred
 # Output:
-# [string] the node with the smallest entropy
+# (a) [string] the node with the smallest entropy
+# (b) [int] the node's inferred AQI value
 
 def minEntropyNodeInfer(distriMatrix):
     

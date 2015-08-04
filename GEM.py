@@ -1,15 +1,18 @@
+# libs
 import pandas as pd;
+
+# functions
 from AQInf import AQInf;
 from minEntropyNodeInfer import minEntropyNodeInfer;
 from matrixInit import stringIndexMatrixInit;
 
 # Input:
-# (a) [string list] a set of locations V with existing measurement stations;
-# (b) [string list] a set of candidate locations C without stations;
-# (c) [string list] the time stamps T = t1, t2,...,tm;
-# (d) [int] the number of locations k to be selected for new stations;
+# (a) [string list] the labeled node list
+# (b) [string list] the unlabeled node list
+# (c) [string list] the time stamp list
+# (d) [int] the # of locations k to be selected for new stations
 # Output:
-# [string list] the set S of k recommended locations (|S| = k);
+# [string list] the set S of k recommended locations (|S| = k)
 
 # haven't implemented:
 # [optional] algo.2.12: sum finished, average

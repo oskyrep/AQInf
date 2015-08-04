@@ -1,5 +1,8 @@
-# absolute function
+# libs
+    # absolute function
 import math;
+
+# functions
 from matrixInit import unlabeledDistriMatrixInit;
 from matrixInit import labeledDistriMatrixInit;
 from matrixInit import stringIndexMatrixInit;
@@ -14,12 +17,12 @@ from AffinityFunMatrixListInit import AffinityFunMatrixListInit;
 # constants
 
 # Input: 
-# (a) [string list] a set of locations V with existing measurement stations;
-# (b) [string list] a set of query locations U without stations;
-# (c) [string list] the time interval ti of interest;
-# (d) [1D dict] the labeled nodes with their AQI values;
+# (a) [string list] the labeled node list
+# (b) [string list] the unlabeled node list
+# (c) [string list] the time stamp list
+# (d) [dict] labeled : AQI
 # Output:
-# [2D dict] the unlabeled AQI distribution Pu;
+# [pandas DataFrame] the unlabeled distribution matrix Pu after 1 AQInf call
 
 # haven't implemented:
 # (a) labeledFeatureDictList

@@ -1,13 +1,15 @@
-# matrix manipulation
+# libs
 import numpy as np;
-# inverse matrix
-from numpy.linalg import inv;
 import pandas as pd;
+    # inverse matrix
+from numpy.linalg import inv;
 
 # Input:
-# [2D dict] the weight matrix
+# (a) [pandas DataFrame] the weight matrix
+# (b) [pandas DataFrame] the labeled distribution matrix Pv
+# (c) [string list] the unlabeled node list
 # Output:
-# [2D dict] the labeled distribution matrix
+# [pandas DataFrame] the unlabeled distribution matrix Pu after calculation
 
 def harmonicFun(weightMatrixRHS, labeledDistriMatrixRHS, unlabeledList):
     
