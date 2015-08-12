@@ -54,14 +54,14 @@ def AQInf(labeledList,
                                                       numOfFeatures,
                                                       labeledAQIDict);
 
-    # initsialize feature weight matrix
+    # initialize feature weight matrix
     featureWeightMatrixList = [];
 
     for i in range(numOfFeatures):
         featureWeightMatrixList.append( stringIndexMatrixInit(nodeList, nodeList, 1.0) );
 
     # update weight matrix
-    weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList);
+    weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList, numOfFeatures);
 
     # calculate old entropy H(Pu)
     lastUnlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);
@@ -73,10 +73,13 @@ def AQInf(labeledList,
     while unlabeledDistriEntropyDiff > CONV_THRESHOLD:
     
         # update Pik matrix
-        featureWeightMatrixListUpdate(featureWeightMatrixList, weightMatrix, AffinityFunMatrixList);
+        featureWeightMatrixListUpdate(featureWeightMatrixList,
+                                      weightMatrix,
+                                      AffinityFunMatrixList,
+                                      numOfFeatures);
 
         # update weight matrix
-        weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList);
+        weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList, numOfFeatures);
 
         # update Pu through harmonic function
         unlabeledDistriMatrix = harmonicFun(weightMatrix,

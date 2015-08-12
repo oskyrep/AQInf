@@ -5,7 +5,6 @@ from collections import OrderedDict;
 # functions
 from AQInf import AQInf;
 from minEntropyNodeInfer import minEntropyNodeInfer;
-from matrixInit import stringIndexMatrixInit;
 
 # Input:
 # (a) [string list] the labeled node list
