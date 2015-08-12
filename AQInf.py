@@ -15,21 +15,28 @@ from AffinityFunMatrixListInit import linearizeFun;
 from AffinityFunMatrixListInit import AffinityFunMatrixListInit;
 
 # constants
+from constants import *;
 
 # Input: 
 # (a) [string list] the labeled node list
 # (b) [string list] the unlabeled node list
-# (c) [string list] the time stamp list
+# (c) [string] the current time stamp 
 # (d) [dict] labeled : AQI
+# (e) [int] the # of features of each node
 # Output:
 # [pandas DataFrame] the unlabeled distribution matrix Pu after 1 AQInf call
 
 # haven't implemented:
 # (a) labeledFeatureDictList
 # (b) unlabeledFeatureDictList
-# (c) numOfFeatures
 
-def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIDict):
+def AQInf(labeledList,
+          unlabeledList,
+          timeStamp,
+          labeledAQIDict,
+          labeledFeatureDictListUponTimeStamp,
+          unlabeledFeatureDictListUponTimeStamp,
+          numOfFeatures):
     
     # initialize Pu
     unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1);
@@ -42,8 +49,8 @@ def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIDict):
     
     # construct AffinityFunMatrix list from featureDict list
     AffinityFunMatrixList = AffinityFunMatrixListInit(nodeList,
-                                                      labeledFeatureDictList,
-                                                      unlabeledFeatureDictList,
+                                                      labeledFeatureDictListUponTimeStamp[timeStamp],
+                                                      unlabeledFeatureDictListUponTimeStamp[timeStamp],
                                                       numOfFeatures,
                                                       labeledAQIDict);
 
@@ -51,7 +58,7 @@ def AQInf(labeledList, unlabeledList, timeStampList, labeledAQIDict):
     featureWeightMatrixList = [];
 
     for i in range(numOfFeatures):
-        featureWeightMatrixList.append(stringIndexMatrixInit(nodeList, nodeList, 1.0));
+        featureWeightMatrixList.append( stringIndexMatrixInit(nodeList, nodeList, 1.0) );
 
     # update weight matrix
     weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList);

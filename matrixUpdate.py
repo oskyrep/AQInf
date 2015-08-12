@@ -1,5 +1,4 @@
 # libs
-    # exp fun
 import math;
 
 # Input:

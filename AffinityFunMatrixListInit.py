@@ -25,7 +25,7 @@ def AffinityFunSubMatrixInit(featureList1, featureList2):
     for x, y, z in it:
         subOp(x, y, out = z);
 
-    return it.operands[2];
+    return abs(it.operands[2]);
 
 # Input:
 # (a) [float] numpy matrix's entity
@@ -58,20 +58,20 @@ def AffinityFunMatrixListInit(nodeList,
     # construct labeled AQI array
     # has nothing to do with loops
     AQIList = labeledAQIDict.values();
-    labeledAQIDiffArray = AffinityFunSubMatrixInit(AQIList, AQIList).ravel();
+    labeledAQIDiffArray = np.fabs(AffinityFunSubMatrixInit(AQIList, AQIList)).ravel();
 
     for i in range(numOfFeatures):
 
         lList = labeledFeatureDictList[i].values();
         uList = unlabeledFeatureDictList[i].values();
         
-        tempMatrix = np.vstack( ( np.hstack([AffinityFunSubMatrixInit(lList, lList),
-                                             AffinityFunSubMatrixInit(uList, lList)]),
-                                  np.hstack([AffinityFunSubMatrixInit(lList, uList),
-                                             AffinityFunSubMatrixInit(uList, uList)]) ) );
+        tempMatrix = np.vstack( ( np.hstack([np.fabs(AffinityFunSubMatrixInit(lList, lList)),
+                                             np.fabs(AffinityFunSubMatrixInit(uList, lList))]),
+                                  np.hstack([np.fabs(AffinityFunSubMatrixInit(lList, uList)),
+                                             np.fabs(AffinityFunSubMatrixInit(uList, uList))]) ) );
         
         # get (slope, intercept) from linear regression
-        labeledFeatureDiffArray = AffinityFunSubMatrixInit(lList, lList).ravel();
+        labeledFeatureDiffArray = np.fabs(AffinityFunSubMatrixInit(lList, lList)).ravel();
 
         # linear regression
         regressResult = stats.linregress(labeledFeatureDiffArray, labeledAQIDiffArray);

@@ -27,9 +27,9 @@ def harmonicFun(weightMatrixRHS, labeledDistriMatrixRHS, unlabeledList):
     LaplacianMatrix = np.subtract(LaplacianMatrix, weightMatrix);
     
     # the harmonic function
-    unlabeledDistriMatrix = - inv( LaplacianMatrix[l:n:1, l:n:1] ) * \
-                                   LaplacianMatrix[l:n:1, 0:l:1] * \
-                                   labeledDistriMatrix;
+    unlabeledDistriMatrix = -1 * np.dot( np.dot( inv( LaplacianMatrix[l:n:1, l:n:1] ),
+                                                 LaplacianMatrix[l:n:1, 0:l:1] ),
+                                         labeledDistriMatrix );
 
     return pd.DataFrame(unlabeledDistriMatrix.transpose(),
                         index = range(unlabeledDistriMatrix.shape[1]),
