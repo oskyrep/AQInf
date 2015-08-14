@@ -1,4 +1,5 @@
 # libs
+from collections import OrderedDict;
 import math;
 
 # Input:
@@ -8,15 +9,12 @@ import math;
 # Output:
 # None, the operation is done on (a)
 
-def featureWeightMatrixListUpdate(featureWeightMatrixList,
-                                  weightMatrix,
-                                  AffinityFunMatrixList,
-                                  numOfFeatures):
+def featureWeightPanelUpdate(featureWeightPanel, weightMatrix, AffinityFunPanel):
     
-    for i in range( numOfFeatures ):
-        featureWeightMatrixList[i] = (1.0 - 2.0 * weightMatrix * \
-                                      AffinityFunMatrixList[i]) * \
-                                     featureWeightMatrixList[i];
+    for feature in featureWeightPanel.items:
+        featureWeightPanel[feature] = (1.0 - 2.0 * weightMatrix * \
+                                       AffinityFunPanel[feature]) * \
+                                       featureWeightPanel[feature];
 
 # Input:
 # (a) [list of pandas DataFrame] the list of feature weight matrix
@@ -24,15 +22,15 @@ def featureWeightMatrixListUpdate(featureWeightMatrixList,
 # Output:
 # [pandas DataFrame] the updated weight matrix
 
-def weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList, numOfFeatures):
+def weightMatrixUpdate(featureWeightPanel, AffinityFunPanel):
 
-    tempMatrixList = [0.0] * numOfFeatures;
-    
-    for i in range( numOfFeatures ):
-        tempMatrixList[i] = featureWeightMatrixList[i] * \
-                            featureWeightMatrixList[i] * \
-                            AffinityFunMatrixList[i];
+    tempMatrixDict = OrderedDict();
 
-    tempWeightMatrix = - sum(tempMatrixList);
+    for feature in featureWeightPanel.items:
+        tempMatrixDict[feature] = featureWeightPanel[feature] * \
+                                  featureWeightPanel[feature] * \
+                                  AffinityFunPanel[feature];
+
+    tempWeightMatrix = - sum(tempMatrixDict.values());
     
     return tempWeightMatrix.applymap(math.exp);

@@ -23,15 +23,15 @@ def GEM(labeledList,
         unlabeledList,
         timeStampList,
         labeledAQITable,
-        labeledFeatureDictListUponTimeStamp,
-        unlabeledFeatureDictListUponTimeStamp,
+        labeledFeatureTimeStampPanel,
+        unlabeledFeatureTimeStampPanel,
         numToBeRecommend):
     
     # variables
     unlabeledListLen = len(unlabeledList);
     currentLabeledList = [];
     labeledAQIDict = OrderedDict();
-    numOfFeatures = len(labeledFeatureDictListUponTimeStamp[ timeStampList[0] ]);
+    labeledFeatureMatrix = pd.DataFrame();
     
     # initialize the rankTable
     # unlabeled nodes -> time stamps
@@ -51,6 +51,14 @@ def GEM(labeledList,
         tempLabeledList = [ element for element in labeledList if element[1] == currentTimeStamp ];
         currentLabeledList += tempLabeledList;
 
+        # update the 2 feature DataFrame
+        tempLabeledFeatureMatrix = labeledFeatureTimeStampPanel[currentTimeStamp].copy();
+        tempLabeledFeatureMatrix.index = tempLabeledList;
+        labeledFeatureMatrix = labeledFeatureMatrix.append(tempLabeledFeatureMatrix);
+
+        unlabeledFeatureMatrix = unlabeledFeatureTimeStampPanel[currentTimeStamp].copy();
+        unlabeledFeatureMatrix.index = leftUnlabeledList;
+
         # update the labeled AQI dict each time stamp
         tempLabeledAQIDict = OrderedDict( zip( tempLabeledList, 
                                                labeledAQITable[ currentTimeStamp : currentTimeStamp ].
@@ -64,9 +72,8 @@ def GEM(labeledList,
                                           leftUnlabeledList,
                                           currentTimeStamp,
                                           labeledAQIDict,
-                                          labeledFeatureDictListUponTimeStamp,
-                                          unlabeledFeatureDictListUponTimeStamp,
-                                          numOfFeatures);
+                                          labeledFeatureMatrix,
+                                          unlabeledFeatureMatrix);
 
             # select the unlabedled node with the min entropy
             (minEntropyUnlabeled, minEntropyUnlabeledAQI) = minEntropyNodeInfer(unlabeledDistriMatrix);
@@ -81,16 +88,14 @@ def GEM(labeledList,
             labeledAQIDict[minEntropyUnlabeled] = minEntropyUnlabeledAQI;
 
             # exclude the labeled node from the unlabeled list
-            unlabeledList.remove(minEntropyUnlabeled);
+            leftUnlabeledList.remove(minEntropyUnlabeled);
 
-            # update the feature dict list
-            currentLabeledFeatureDictList = labeledFeatureDictListUponTimeStamp[currentTimeStamp];
-            currentUnlabeledFeatureDictList = unlabeledFeatureDictListUponTimeStamp[currentTimeStamp];
+            # update the 2 feature panels
+            labeledFeatureMatrix = labeledFeatureMatrix.append(unlabeledFeatureMatrix[minEntropyUnlabeled : minEntropyUnlabeled]);
+            unlabeledFeatureMatrix.drop(minEntropyUnlabeled, inplace = True);
 
-            for i in range(numOfFeatures):
-                currentLabeledFeatureDictList[i][ minEntropyUnlabeled[0] ] = currentUnlabeledFeatureDictList[i][ minEntropyUnlabeled[0] ];
-                del currentUnlabeledFeatureDictList[i][ minEntropyUnlabeled[0] ];
+        fap = 2;
 
     # construct the recommend list
     # sort the rankList in descending order
-    return list(pd.DataFrame(rankTable.sum()).sort(columns = 0, ascending = False).index);
+    return list(pd.DataFrame(rankTable.sum()).sort(columns = 0).index);

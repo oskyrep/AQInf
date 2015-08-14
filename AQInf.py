@@ -1,4 +1,6 @@
 # libs
+import pandas as pd;
+from collections import OrderedDict;
     # absolute function
 import math;
 
@@ -6,13 +8,13 @@ import math;
 from matrixInit import unlabeledDistriMatrixInit;
 from matrixInit import labeledDistriMatrixInit;
 from matrixInit import stringIndexMatrixInit;
-from matrixUpdate import featureWeightMatrixListUpdate;
+from matrixUpdate import featureWeightPanelUpdate;
 from matrixUpdate import weightMatrixUpdate;
 from matrixEntropyFun import matrixEntropyFun;
 from harmonicFun import harmonicFun;
-from AffinityFunMatrixListInit import AffinityFunSubMatrixInit;
-from AffinityFunMatrixListInit import linearizeFun;
-from AffinityFunMatrixListInit import AffinityFunMatrixListInit;
+from AffinityFunPanelInit import AffinityFunSubMatrixInit;
+from AffinityFunPanelInit import linearizeFun;
+from AffinityFunPanelInit import AffinityFunPanelInit;
 
 # constants
 from constants import *;
@@ -34,9 +36,8 @@ def AQInf(labeledList,
           unlabeledList,
           timeStamp,
           labeledAQIDict,
-          labeledFeatureDictListUponTimeStamp,
-          unlabeledFeatureDictListUponTimeStamp,
-          numOfFeatures):
+          labeledFeatureMatrix,
+          unlabeledFeatureMatrix):
     
     # initialize Pu
     unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1);
@@ -48,20 +49,21 @@ def AQInf(labeledList,
     nodeList = labeledList + unlabeledList;
     
     # construct AffinityFunMatrix list from featureDict list
-    AffinityFunMatrixList = AffinityFunMatrixListInit(nodeList,
-                                                      labeledFeatureDictListUponTimeStamp[timeStamp],
-                                                      unlabeledFeatureDictListUponTimeStamp[timeStamp],
-                                                      numOfFeatures,
-                                                      labeledAQIDict);
+    AffinityFunPanel = AffinityFunPanelInit(nodeList,
+                                            labeledFeatureMatrix,
+                                            unlabeledFeatureMatrix,
+                                            labeledAQIDict);
 
     # initialize feature weight matrix
-    featureWeightMatrixList = [];
+    featureWeightMatrixDict = OrderedDict();
 
-    for i in range(numOfFeatures):
-        featureWeightMatrixList.append( stringIndexMatrixInit(nodeList, nodeList, 1.0) );
+    for feature in labeledFeatureMatrix.columns:
+        featureWeightMatrixDict[feature] = stringIndexMatrixInit(nodeList, nodeList, 1.0);
+
+    featureWeightPanel = pd.Panel(featureWeightMatrixDict);
 
     # update weight matrix
-    weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList, numOfFeatures);
+    weightMatrix = weightMatrixUpdate(featureWeightPanel, AffinityFunPanel);
 
     # calculate old entropy H(Pu)
     lastUnlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);
@@ -73,13 +75,10 @@ def AQInf(labeledList,
     while unlabeledDistriEntropyDiff > CONV_THRESHOLD:
     
         # update Pik matrix
-        featureWeightMatrixListUpdate(featureWeightMatrixList,
-                                      weightMatrix,
-                                      AffinityFunMatrixList,
-                                      numOfFeatures);
+        featureWeightPanelUpdate(featureWeightPanel, weightMatrix, AffinityFunPanel);
 
         # update weight matrix
-        weightMatrix = weightMatrixUpdate(featureWeightMatrixList, AffinityFunMatrixList, numOfFeatures);
+        weightMatrix = weightMatrixUpdate(featureWeightPanel, AffinityFunPanel);
 
         # update Pu through harmonic function
         unlabeledDistriMatrix = harmonicFun(weightMatrix,

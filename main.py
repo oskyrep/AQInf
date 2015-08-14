@@ -6,13 +6,13 @@ from allInputs import *;
 from GEM import GEM;
 
 if __name__ == '__main__':
-    
+
     recommendList = GEM(labeledList,
                         unlabeledList,
                         timeStampList,
                         labeledAQITable,
-                        labeledFeatureDictListUponTimeStamp,
-                        unlabeledFeatureDictListUponTimeStamp,
+                        labeledFeatureTimeStampPanel,
+                        unlabeledFeatureTimeStampPanel,
                         numToBeRecommend);
 
     print recommendList;
