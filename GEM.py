@@ -98,4 +98,4 @@ def GEM(labeledList,
 
     # construct the recommend list
     # sort the rankList in descending order
-    return list(pd.DataFrame(rankTable.sum()).sort(columns = 0).index);
+    return list(pd.DataFrame(rankTable.sum()).sort(columns = 0).index)[:numToBeRecommend];
