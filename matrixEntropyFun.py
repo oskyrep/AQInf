@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # libs
 import pandas as pd;
 import numpy as np;

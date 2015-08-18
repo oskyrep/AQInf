@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # libs
 import pandas as pd;
 from collections import OrderedDict;
@@ -93,8 +95,6 @@ def GEM(labeledList,
             # update the 2 feature panels
             labeledFeatureMatrix = labeledFeatureMatrix.append(unlabeledFeatureMatrix[minEntropyUnlabeled : minEntropyUnlabeled]);
             unlabeledFeatureMatrix.drop(minEntropyUnlabeled, inplace = True);
-
-        fap = 2;
 
     # construct the recommend list
     # sort the rankList in descending order

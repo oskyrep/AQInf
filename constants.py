@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # define all the contant values
 
     # the maximum AQI value in this location

@@ -11,8 +11,8 @@ labeledAQITable = pd.DataFrame([[123,265,379],
                                 [250,300,275],
                                 [300,350,325]],
                                 index = timeStampList,
-                                columns = labeledList,
-                                dtype = float);
+                                columns = labeledList);
+
 numToBeRecommend = 3;
                                        
 labeledFeatureTimeStampPanel = \

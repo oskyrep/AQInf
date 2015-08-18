@@ -1,5 +1,7 @@
-import pdb;
-pdb.set_trace();
+#!/usr/bin/python
+
+# import pdb;
+# pdb.set_trace();
 
 from allInputs import *;
 
