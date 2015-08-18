@@ -3,6 +3,7 @@
 # libs
 import pandas as pd;
 from collections import OrderedDict;
+import itertools;
 
 # functions
 from AQInf import AQInf;
@@ -42,16 +43,17 @@ def GEM(labeledList,
                              columns = unlabeledList);
 
     # combine the 2 node list with time stamp list
-    labeledList = [ (node, timeStamp) for timeStamp in timeStampList for node in labeledList ];
-    unlabeledList = [ (node, timeStamp) for timeStamp in timeStampList for node in unlabeledList ];
+    labeledList = list( itertools.product(timeStampList, labeledList) );
+    unlabeledList = list( itertools.product(timeStampList, unlabeledList) );
 
     # begin iteration 
     for currentTimeStamp in timeStampList:
 
         # update the 2 node list each time stamp
-        leftUnlabeledList = [ element for element in unlabeledList if element[1] == currentTimeStamp ];
-        tempLabeledList = [ element for element in labeledList if element[1] == currentTimeStamp ];
+        tempLabeledList = [ element for element in labeledList if element[0] == currentTimeStamp ];
         currentLabeledList += tempLabeledList;
+
+        leftUnlabeledList = [ element for element in unlabeledList if element[0] == currentTimeStamp ];
 
         # update the 2 feature DataFrame
         tempLabeledFeatureMatrix = labeledFeatureTimeStampPanel[currentTimeStamp].copy();
@@ -81,7 +83,7 @@ def GEM(labeledList,
             (minEntropyUnlabeled, minEntropyUnlabeledAQI) = minEntropyNodeInfer(unlabeledDistriMatrix);
 
             # give the rank value reversely
-            rankTable[ minEntropyUnlabeled[0] ][currentTimeStamp] = currentRank;
+            rankTable[ minEntropyUnlabeled[1] ][currentTimeStamp] = currentRank;
 
             # turn unlabeled to labeled
             currentLabeledList.append(minEntropyUnlabeled);
