@@ -25,6 +25,7 @@ from minEntropyNodeInfer import minEntropyNodeInfer;
 def GEM(labeledList,
         unlabeledList,
         timeStampList,
+        featureList,
         labeledAQITable,
         labeledFeatureTimeStampPanel,
         unlabeledFeatureTimeStampPanel,
@@ -34,7 +35,7 @@ def GEM(labeledList,
     unlabeledListLen = len(unlabeledList);
     currentLabeledList = [];
     labeledAQIDict = OrderedDict();
-    labeledFeatureMatrix = pd.DataFrame();
+    labeledFeatureMatrix = pd.DataFrame(columns = featureList);
     
     # initialize the rankTable
     # unlabeled nodes -> time stamps

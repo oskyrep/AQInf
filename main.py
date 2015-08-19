@@ -22,6 +22,7 @@ if __name__ == '__main__':
     recommendList = GEM(labeledList,
                         unlabeledList,
                         timeStampList,
+                        featureList,
                         labeledAQITable,
                         labeledFeatureTimeStampPanel,
                         unlabeledFeatureTimeStampPanel,
