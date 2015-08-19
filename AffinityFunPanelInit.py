@@ -84,6 +84,9 @@ def AffinityFunPanelInit(nodeList,
 
         tempMatrix = entityLinearizeFun(tempMatrix, regressResult[0], regressResult[1]);
 
-        tempMatrixDict[feature] = pd.DataFrame(tempMatrix, index = nodeList, columns = nodeList, dtype = float);
+        tempMatrixDict[feature] = pd.DataFrame(tempMatrix,
+                                               index = nodeList,
+                                               columns = nodeList,
+                                               dtype = float);
 
     return featureScaling(pd.Panel(tempMatrixDict));

@@ -11,6 +11,9 @@ def featureScaling(AffinityFunPanel):
     for feature in AffinityFunPanel.items:
         
         tempMatrix = minMaxScaler.fit_transform(AffinityFunPanel[feature].values);
-        AffinityFunPanel[feature] = pd.DataFrame(tempMatrix, index = AffinityFunPanel.major_axis, columns = AffinityFunPanel.minor_axis, dtype = float);
+        AffinityFunPanel[feature] = pd.DataFrame(tempMatrix,
+                                                 index = AffinityFunPanel.major_axis,
+                                                 columns = AffinityFunPanel.minor_axis,
+                                                 dtype = float);
 
     return AffinityFunPanel;
