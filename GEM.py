@@ -99,6 +99,19 @@ def GEM(labeledList,
             labeledFeatureMatrix = labeledFeatureMatrix.append(unlabeledFeatureMatrix[minEntropyUnlabeled : minEntropyUnlabeled]);
             unlabeledFeatureMatrix.drop(minEntropyUnlabeled, inplace = True);
 
+    # output the rankTable
+    outputRankTableFileName = 'rankTable.csv';
+    rankTable.to_csv(outputRankTableFileName);
+
+    # output the labeled AQI Table
+    outputLabeledAQITableFileName = 'labeledAQITable.csv';
+    pd.DataFrame([labeledAQIDict]).to_csv(outputLabeledAQITableFileName);
+ 
+    # output the recommend list
+    outputRecommendListFile = open('recommendList', "w");
+    for string in list(pd.DataFrame(rankTable.sum()).sort(columns = 0).index):
+        outputRecommendListFile.write("%s\n" % string);
+
     # construct the recommend list
     # sort the rankList in descending order
     return list(pd.DataFrame(rankTable.sum()).sort(columns = 0).index)[:numToBeRecommend];

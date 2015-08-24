@@ -3,6 +3,8 @@
 import pdb;
 pdb.set_trace();
 
+import cProfile;
+
 import sys;
 
 from GEM import GEM;
