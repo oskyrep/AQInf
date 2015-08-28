@@ -6,8 +6,11 @@ import numpy as np;
 from collections import OrderedDict;
     # linear regression
 from scipy import stats;
+    # euclidean distance
+import math;
 
-from featureScaling import featureScaling;
+# constants
+from constants import *;
 
 # Input:
 # (a) [float list] feature list 1
@@ -15,7 +18,7 @@ from featureScaling import featureScaling;
 # Output:
 # [numpy matrix] sub Affinity Function matrix after operation
 
-def AffinityFunSubMatrixInit(featureList1, featureList2):
+def commonDiffMatrixInit(featureList1, featureList2):
 
     featureList1 = np.array(featureList1);
 
@@ -31,6 +34,16 @@ def AffinityFunSubMatrixInit(featureList1, featureList2):
         subOp(x, y, out = z);
 
     return abs(it.operands[2]);
+
+def geoDiffMatrixInit(featureList1, featureList2):
+
+    tempArray = [];
+
+    for node2 in featureList2:
+        for node1 in featureList1:
+            tempArray.append(math.hypot( eval(node1)[0] - eval(node2)[0], eval(node1)[1] - eval(node2)[1] ));
+
+    return np.array(tempArray).reshape(len(featureList2), len(featureList1));
 
 # Input:
 # (a) [float] numpy matrix's entity
@@ -62,20 +75,32 @@ def AffinityFunPanelInit(nodeList,
     # construct labeled AQI array
     # has nothing to do with loops
     AQIList = labeledAQIDict.values();
-    labeledAQIDiffArray = np.fabs(AffinityFunSubMatrixInit(AQIList, AQIList)).ravel();
+    labeledAQIDiffArray = commonDiffMatrixInit(AQIList, AQIList).ravel();
 
+    funDict = {
+        
+        'commonDiffMatrixInit': commonDiffMatrixInit,
+        'geoDiffMatrixInit': geoDiffMatrixInit
+    };
+    
     for feature in labeledFeatureMatrix.columns:
 
         lList = list(labeledFeatureMatrix[feature]);
         uList = list(unlabeledFeatureMatrix[feature]);
         
-        tempMatrix = np.vstack( ( np.hstack([np.fabs(AffinityFunSubMatrixInit(lList, lList)),
-                                             np.fabs(AffinityFunSubMatrixInit(uList, lList))]),
-                                  np.hstack([np.fabs(AffinityFunSubMatrixInit(lList, uList)),
-                                             np.fabs(AffinityFunSubMatrixInit(uList, uList))]) ) );
+        # function pointer
+        if feature == 'rowCol':
+            funChosen = 'geoDiffMatrixInit';
+        else:
+            funChosen = 'commonDiffMatrixInit';
+
+        tempMatrix = np.vstack( ( np.hstack([funDict[funChosen](lList, lList),
+                                             funDict[funChosen](uList, lList)]),
+                                  np.hstack([funDict[funChosen](lList, uList),
+                                             funDict[funChosen](uList, uList)]) ) );
         
         # get (slope, intercept) from linear regression
-        labeledFeatureDiffArray = np.fabs(AffinityFunSubMatrixInit(lList, lList)).ravel();
+        labeledFeatureDiffArray = funDict[funChosen](lList, lList).ravel();
 
         # linear regression
         regressResult = stats.linregress(labeledFeatureDiffArray, labeledAQIDiffArray);
@@ -84,7 +109,7 @@ def AffinityFunPanelInit(nodeList,
 
         tempMatrix = entityLinearizeFun(tempMatrix, regressResult[0], regressResult[1]);
         
-        tempMatrix = (tempMatrix - tempMatrix.min()) / (tempMatrix.max() - tempMatrix.min());
+        tempMatrix = NORMALIZE_FACTOR * (tempMatrix - tempMatrix.min()) / (tempMatrix.max() - tempMatrix.min());
 
         tempMatrixDict[feature] = pd.DataFrame(tempMatrix,
                                                index = nodeList,
@@ -92,4 +117,3 @@ def AffinityFunPanelInit(nodeList,
                                                dtype = float);
 
     return pd.Panel(tempMatrixDict);
-    # return featureScaling(pd.Panel(tempMatrixDict));

@@ -12,9 +12,11 @@ from matrixInit import labeledDistriMatrixInit;
 from matrixInit import stringIndexMatrixInit;
 from matrixUpdate import featureWeightPanelUpdate;
 from matrixUpdate import weightMatrixUpdate;
+from matrixUpdate import weightMatrixFilter;
 from matrixEntropyFun import matrixEntropyFun;
 from harmonicFun import harmonicFun;
-from AffinityFunPanelInit import AffinityFunSubMatrixInit;
+from AffinityFunPanelInit import commonDiffMatrixInit;
+from AffinityFunPanelInit import geoDiffMatrixInit;
 from AffinityFunPanelInit import linearizeFun;
 from AffinityFunPanelInit import AffinityFunPanelInit;
 
@@ -66,6 +68,7 @@ def AQInf(labeledList,
 
     # update weight matrix
     weightMatrix = weightMatrixUpdate(featureWeightPanel, AffinityFunPanel);
+    # weightMatrixFilter(weightMatrix, labeledList);
 
     # calculate old entropy H(Pu)
     lastUnlabeledDistriEntropy = matrixEntropyFun(unlabeledDistriMatrix);
@@ -81,6 +84,7 @@ def AQInf(labeledList,
 
         # update weight matrix
         weightMatrix = weightMatrixUpdate(featureWeightPanel, AffinityFunPanel);
+        # weightMatrixFilter(weightMatrix, labeledList);
 
         # update Pu through harmonic function
         unlabeledDistriMatrix = harmonicFun(weightMatrix,

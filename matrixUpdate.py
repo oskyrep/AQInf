@@ -34,3 +34,7 @@ def weightMatrixUpdate(featureWeightPanel, AffinityFunPanel):
     tempWeightMatrix = - sum(tempMatrixDict.values());
     
     return tempWeightMatrix.applymap(math.exp);
+
+def weightMatrixFilter(weightMatrix, labeledList):
+    
+    weightMatrix.ix[labeledList, labeledList] = 0.0;
