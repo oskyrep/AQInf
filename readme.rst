@@ -1,7 +1,7 @@
 AQInf
 ======================
 
-The Python implementation of the paper **Inferring Air Quality for Station Location Recommendation Based on Urban Big Data**.
+The Python implementation of the KDD'15 paper **Inferring Air Quality for Station Location Recommendation Based on Urban Big Data**.
 
 Paper link:
 
