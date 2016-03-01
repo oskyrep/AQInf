@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
-# import pdb;
-# pdb.set_trace();
+#import pdb
+#pdb.set_trace()
 
-import cProfile;
+import cProfile
 
-import sys;
+import sys
 
-from GEM import GEM;
-from inputManage import inputManage;
+from GEM import GEM
+from inputManage import inputManage
 
 if __name__ == '__main__':
 
@@ -19,7 +19,7 @@ if __name__ == '__main__':
      labeledAQITable,
      labeledFeatureTimeStampPanel,
      unlabeledFeatureTimeStampPanel,
-     numToBeRecommend) = inputManage(sys.argv);
+     numToBeRecommend) = inputManage(sys.argv)
 
     recommendList = GEM(labeledList,
                         unlabeledList,
@@ -28,6 +28,6 @@ if __name__ == '__main__':
                         labeledAQITable,
                         labeledFeatureTimeStampPanel,
                         unlabeledFeatureTimeStampPanel,
-                        numToBeRecommend);
+                        numToBeRecommend)
 
-    print recommendList;
+    print recommendList
