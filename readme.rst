@@ -3,7 +3,7 @@ AQInf
 
 The Python implementation of the KDD'15 paper **Inferring Air Quality for Station Location Recommendation Based on Urban Big Data**.
 
-Python packages numpy and pandas are required.
+Python packages **numpy** and **pandas** are required.
 
 Paper link:
 
