@@ -3,7 +3,7 @@
 #import pdb
 #pdb.set_trace()
 
-import cProfile
+#import cProfile
 
 import sys
 
