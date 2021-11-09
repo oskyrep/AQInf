@@ -10,6 +10,10 @@ import sys
 from GEM import GEM
 from inputManage import inputManage
 
+argv = ['dummy','input/labeledList', 'input/unlabeledList', 'input/timeStampList',
+        'input/featureList', 'input/labeledAQITable.csv', 'input/labeledFeatureTimeStampPanel.csv',
+        'input/unlabeledFeatureTimeStampPanel.csv','2']
+
 if __name__ == '__main__':
 
     (labeledList,
@@ -19,7 +23,7 @@ if __name__ == '__main__':
      labeledAQITable,
      labeledFeatureTimeStampPanel,
      unlabeledFeatureTimeStampPanel,
-     numToBeRecommend) = inputManage(sys.argv)
+     numToBeRecommend) = inputManage(argv)
 
     recommendList = GEM(labeledList,
                         unlabeledList,
@@ -30,4 +34,6 @@ if __name__ == '__main__':
                         unlabeledFeatureTimeStampPanel,
                         numToBeRecommend)
 
-    print recommendList
+    print(recommendList)
+
+

@@ -9,6 +9,8 @@ import itertools
 from AQInf import AQInf
 from minEntropyNodeInfer import minEntropyNodeInfer
 
+import time
+
 def GEM(labeledList,
         unlabeledList,
         timeStampList,
@@ -56,20 +58,26 @@ def GEM(labeledList,
                                                labeledAQITable[ currentTimeStamp : currentTimeStamp ].
                                                values.ravel().tolist() ) )
         labeledAQIDict.update(tempLabeledAQIDict)
-        
+        funcstarttime = time.time()
         # for each unlabeled nodes: do GEM
         for currentRank in range(unlabeledListLen, 0, -1):
-
+            print("------------------------start time: %d------------------------" % funcstarttime)
             unlabeledDistriMatrix = AQInf(currentLabeledList,
                                           leftUnlabeledList,
                                           currentTimeStamp,
                                           labeledAQIDict,
                                           labeledFeatureMatrix,
                                           unlabeledFeatureMatrix)
-
+            
+            nowtime = time.time() - funcstarttime
+            funcstarttime = time.time()
+            print("------------------------AQInf time: %d------------------------" % nowtime)
             # select the unlabedled node with the min entropy
             (minEntropyUnlabeled, minEntropyUnlabeledAQI) = minEntropyNodeInfer(unlabeledDistriMatrix)
-
+            
+            nowtime = time.time() - funcstarttime
+            funcstarttime = time.time()
+            print("------------------------Min Entropy time: %d------------------------" % nowtime)
             # give the rank value reversely
             rankTable[ minEntropyUnlabeled[1] ][currentTimeStamp] = currentRank
 

@@ -14,12 +14,12 @@ from constants import *
 
 def commonDiffMatrixInit(featureList1, featureList2):
 
-    featureList1 = np.array(featureList1)
+    featureList1 = np.array(list(featureList1))
 
-    featureList2 = np.array(featureList2).reshape(-1, 1)
+    featureList2 = np.array(list(featureList2)).reshape(-1, 1)
 
     it = np.nditer([featureList1, featureList2, None],
-                   [],
+                   ['refs_ok'],
                    [['readonly'], ['readonly'], ['writeonly', 'allocate']])
 
     subOp = np.subtract
