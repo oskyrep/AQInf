@@ -5,6 +5,7 @@ from collections import OrderedDict
 # functions
 from matrixEntropyFun import entropyFun
 from matrixEntropyFun import matrixEntropyFun
+import numpy as np
 
 def minEntropyNodeInfer(distriMatrix):
     
@@ -17,5 +18,5 @@ def minEntropyNodeInfer(distriMatrix):
             
     # return the node with the smallest entropy
     minEntropyNode = min(nodeEntropyDict, key = nodeEntropyDict.get)
-
-    return (minEntropyNode, distriMatrix[minEntropyNode].argmax())
+    minEntropyNodeAQI = np.average(distriMatrix[minEntropyNode].index.values, weights = distriMatrix[minEntropyNode])
+    return (minEntropyNode, minEntropyNodeAQI) #distriMatrix[minEntropyNode].argmax())

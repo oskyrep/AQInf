@@ -12,7 +12,7 @@ from inputManage import inputManage
 
 argv = ['dummy','input/labeledList', 'input/unlabeledList', 'input/timeStampList',
         'input/featureList', 'input/labeledAQITable.csv', 'input/labeledFeatureTimeStampPanel.csv',
-        'input/unlabeledFeatureTimeStampPanel.csv','2']
+        'input/unlabeledFeatureTimeStampPanel.csv','10']
 
 if __name__ == '__main__':
 

@@ -5,6 +5,7 @@ import pandas as pd
 from collections import OrderedDict
     # absolute function
 import math
+import time
 
 # functions
 from matrixInit import unlabeledDistriMatrixInit
@@ -29,7 +30,7 @@ def AQInf(labeledList,
           labeledAQIDict,
           labeledFeatureMatrix,
           unlabeledFeatureMatrix):
-    
+
     # initialize Pu
     unlabeledDistriMatrix = unlabeledDistriMatrixInit(unlabeledList, MAX_AQI + 1)
     
@@ -38,7 +39,7 @@ def AQInf(labeledList,
 
     # construct the node list
     nodeList = labeledList + unlabeledList
-    
+
     # construct AffinityFunMatrix list from featureDict list
     AffinityFunPanel = AffinityFunPanelInit(nodeList,
                                             labeledFeatureMatrix,
@@ -71,7 +72,7 @@ def AQInf(labeledList,
 
         # update weight matrix
         weightMatrix = weightMatrixUpdate(featureWeightPanel, AffinityFunPanel)
-        # weightMatrixFilter(weightMatrix, labeledList)
+        weightMatrixFilter(weightMatrix, labeledList)
 
         # update Pu through harmonic function
         unlabeledDistriMatrix = harmonicFun(weightMatrix,
@@ -86,3 +87,5 @@ def AQInf(labeledList,
         lastUnlabeledDistriEntropy = unlabeledDistriEntropy
 
     return unlabeledDistriMatrix
+
+
